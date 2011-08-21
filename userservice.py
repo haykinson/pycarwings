@@ -1,8 +1,10 @@
 from xml.dom import minidom
 import time
 import sha
+
 from connection import Connection
 from xmlhelper import dict_to_xml
+from response import *
 
 class UserService(object):
 
@@ -29,5 +31,13 @@ class UserService(object):
                           namespaces)
 
         result = self.connection.post_xml(self.SERVICE_PATH, xml)
-        return result
+        return LoginStatus(result)
 
+if __name__ == "__main__":
+    c = Connection('YOUR_USERNAME', 'YOUR_PASSWORD')
+    u = UserService(c)
+    d = u.login_and_get_status()
+    import yaml
+    print yaml.dump(d)
+    
+        
