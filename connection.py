@@ -15,7 +15,7 @@ class Connection(object):
         self.handler = urllib2.HTTPCookieProcessor()
         self.opener = urllib2.build_opener(self.handler)
 
-    def post_xml(self, service, xml_data):
+    def post_xml(self, service, xml_data, suppress_response=False):
         data = xml_data.toxml()
         request = urllib2.Request("%s%s" % (self.BASE_URL, service), 
                                   data, 
@@ -24,5 +24,8 @@ class Connection(object):
         response = self.opener.open(request)
         response_data = response.read()
         response.close()
-        return minidom.parseString(response_data)
+        if not suppress_response:
+            return minidom.parseString(response_data)
+        else:
+            return True
 

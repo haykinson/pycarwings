@@ -32,6 +32,15 @@ class LoginStatus(XMLResponse):
         self.user_info = SmartphoneUserInfoType(user_info)
         self.latest_battery_status = SmartphoneLatestBatteryStatusResponse(latest_battery_status)
 
+class LatestBatteryStatus(XMLResponse):
+    def __init__(self, data):
+        self.parse(data)
+
+    def parse(self, data):
+        latest_battery_status = self.get_first(data, 'SmartphoneLatestBatteryStatusResponse')
+
+        self.latest_battery_status = SmartphoneLatestBatteryStatusResponse(latest_battery_status)
+
 class SmartphoneUserInfoType(XMLResponse):
     def __init__(self, data):
         self.parse(data)
@@ -57,12 +66,16 @@ class SmartphoneLatestBatteryStatusResponse(XMLResponse):
         self.cruising_range_ac_on = self.get_value(status, 'CruisingRangeAcOn')
         self.cruising_range_ac_off = self.get_value(status, 'CruisingRangeAcOff')
 
-        #parse time required to full
-        hour_required_to_full = int(self.get_value(status, 'HourRequiredToFull'))
-        minutes_required_to_full = int(self.get_value(status, 'MinutesRequiredToFull'))
+        time_required_to_full = self.get_first(status, 'TimeRequiredToFull')
+        if time_required_to_full:
+            #parse time required to full
+            hour_required_to_full = int(self.get_value(time_required_to_full, 'HourRequiredToFull'))
+            minutes_required_to_full = int(self.get_value(time_required_to_full, 'MinutesRequiredToFull'))
         
-        self.time_required_to_full = timedelta(hours=hour_required_to_full,
-                                               minutes=minutes_required_to_full)
+            self.time_required_to_full = timedelta(hours=hour_required_to_full,
+                                                   minutes=minutes_required_to_full)
+        else:
+            self.time_required_to_full = None
 
         self.notification_date_and_time = self.get_date_value(status, 'NotificationDateAndTime')
         

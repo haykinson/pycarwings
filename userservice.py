@@ -33,11 +33,19 @@ class UserService(object):
         result = self.connection.post_xml(self.SERVICE_PATH, xml)
         return LoginStatus(result)
 
-if __name__ == "__main__":
-    c = Connection('YOUR_USERNAME', 'YOUR_PASSWORD')
-    u = UserService(c)
-    d = u.login_and_get_status()
-    import yaml
-    print yaml.dump(d)
+    def get_latest_status(self, vin):
+        namespaces = {'ns2':'urn:com:airbiquity:smartphone.userservices:v1'}
+        d = {'VehicleInfo':
+                 {'Vin': vin},
+             'SmartphoneOperationType': 'SmartphoneLatestBatteryStatusRequest',
+             'changeVehicle': 'false'}
+
+        xml = dict_to_xml(d, 
+                          'ns2:SmartphoneGetVehicleInfoRequest',
+                          namespaces)
+
+        result = self.connection.post_xml(self.SERVICE_PATH, xml)
+        return LatestBatteryStatus(result)
+
     
         
