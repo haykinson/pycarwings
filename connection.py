@@ -9,6 +9,7 @@ class Connection(object):
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        self.logged_in = False
         self.connect()
 
     def connect(self):
@@ -29,3 +30,10 @@ class Connection(object):
         else:
             return True
 
+
+class AuthException(Exception):
+    def __init__(self, value):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)

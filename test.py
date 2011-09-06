@@ -1,4 +1,5 @@
 import sys
+import time
 from connection import Connection
 from userservice import UserService
 from vehicleservice import VehicleService
@@ -12,13 +13,21 @@ if __name__ == "__main__":
     u = UserService(c)
     print "logging in..."
     d = u.login_and_get_status()
-    vin = d.user_info.vin
-    print "logged in, vin: %s, nickname: %s" % (vin, d.user_info.nickname)
-    v = VehicleService(c)
-    print "requesting status..."
-    v.request_status(vin)
-    print "getting latest..."
-    d = u.get_latest_status(vin)
-    print "done!"
-    import yaml
-    print yaml.dump(d)
+    if not c.logged_in:
+        print "Log in invalid, please try again"
+    else:
+        vin = d.user_info.vin
+        print "logged in, vin: %s, nickname: %s" % (vin, d.user_info.nickname)
+        v = VehicleService(c)
+        print "requesting status..."
+        v.request_status(vin)
+        print "sleeping for 20 seconds..."
+        for r in range(0,20):
+            time.sleep(1)
+            print (r+1),
+        print 'done'
+        print "getting latest..."
+        d = u.get_latest_status(vin)
+        print "done!"
+        import yaml
+        print yaml.dump(d)

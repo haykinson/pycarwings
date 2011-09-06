@@ -2,7 +2,7 @@ from xml.dom import minidom
 import time
 import sha
 
-from connection import Connection
+from connection import Connection, AuthException
 from xmlhelper import dict_to_xml
 from response import *
 
@@ -31,9 +31,18 @@ class UserService(object):
                           namespaces)
 
         result = self.connection.post_xml(self.SERVICE_PATH, xml)
-        return LoginStatus(result)
+        status = LoginStatus(result)
+        if status.logged_in:
+            self.connection.logged_in = True
+        else:
+            self.connection.logged_in = False
+
+        return status
 
     def get_latest_status(self, vin):
+        if not self.connection.logged_in:
+            raise AuthException('Please log in before checking status')
+
         namespaces = {'ns2':'urn:com:airbiquity:smartphone.userservices:v1'}
         d = {'VehicleInfo':
                  {'Vin': vin},
