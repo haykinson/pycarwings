@@ -22,10 +22,7 @@ if __name__ == "__main__":
         print "requesting status..."
         v.request_status(vin)
         print "sleeping for 20 seconds..."
-        for r in range(0,20):
-            time.sleep(1)
-            print (r+1),
-        print 'done'
+        time.sleep(20)
         print "getting latest..."
         d = u.get_latest_status(vin)
         print "done!"
