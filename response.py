@@ -82,6 +82,17 @@ class SmartphoneLatestBatteryStatusResponse(XMLResponse):
         else:
             self.time_required_to_full = None
 
+        time_required_to_full_L2 = self.get_first(status, 'TimeRequiredToFull200')
+        if time_required_to_full_L2:
+            #parse time required to full
+            hour_required_to_full_L2 = int(self.get_value(time_required_to_full_L2, 'HourRequiredToFull'))
+            minutes_required_to_full_L2 = int(self.get_value(time_required_to_full_L2, 'MinutesRequiredToFull'))
+        
+            self.time_required_to_full_L2 = timedelta(hours=hour_required_to_full_L2,
+                                                   minutes=minutes_required_to_full_L2)
+        else:
+            self.time_required_to_full_L2 = None
+
         self.notification_date_and_time = self.get_date_value(status, 'NotificationDateAndTime')
         
         self.last_battery_status_check_execution_time = self.get_date_value(data, 'lastBatteryStatusCheckExecutionTime')
