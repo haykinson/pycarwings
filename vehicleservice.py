@@ -41,7 +41,7 @@ class VehicleService(object):
                   'ns3:VehicleServiceRequestHeader':
                       {'ns2:VIN': vin},
                   'ns3:NewBatteryChargeRequest':
-                      {'ns3:ExecuteTime', datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}}}
+                      {'ns3:ExecuteTime': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ')}}}
         xml = dict_to_xml(d, 'ns4:SmartphoneRemoteBatteryChargeRequest', namespaces)
         result = self.connection.post_xml(self.SERVICE_PATH, xml, True)
         return True
