@@ -1,5 +1,12 @@
 Library for connecting and interacting with Nissan's CARWINGS service for Nissan LEAF cars.
 
+
+Required modules:
+
+ - iso8601 (http://pypi.python.org/pypi/iso8601/)
+ - yaml (http://pyyaml.org/wiki/PyYAML) -- for the test program only
+
+
 Licensed using the MIT license:
 
 ---
