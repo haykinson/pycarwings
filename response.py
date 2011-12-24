@@ -30,10 +30,10 @@ class LoginStatus(XMLResponse):
         if not error:
             self.logged_in = True
             user_info = self.get_first(data, 'SmartphoneUserInfoType')
-            latest_battery_status = self.get_first(data, 'SmartphoneLatestBatteryStatusResponse')
+            # latest_battery_status = self.get_first(data, 'SmartphoneLatestBatteryStatusResponse')
 
             self.user_info = SmartphoneUserInfoType(user_info)
-            self.latest_battery_status = SmartphoneLatestBatteryStatusResponse(latest_battery_status)
+            # self.latest_battery_status = SmartphoneLatestBatteryStatusResponse(latest_battery_status)
         else:
             self.logged_in = False
 
