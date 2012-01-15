@@ -1,5 +1,8 @@
 Library for connecting and interacting with Nissan's CARWINGS service for Nissan LEAF cars.
 
+Known limitation:
+ - doesn't appear to work out of the box outside the United States
+   (known failures: Canada and UK)
 
 Required modules:
 
